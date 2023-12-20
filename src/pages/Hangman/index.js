@@ -6,10 +6,12 @@ export default function Hangman() {
   const [word, setWord] = useState('');
   const [suggestions, setSugestions] = useState([]);
   const [wordsUsed, setWordUsed] = useState([]);
+  const [endWord, setEndWord] = useState(false);
   const [endGame, setEndGame] = useState(false);
   const [mesage, setMessage] = useState('');
   const [usedLetters, setUsedLetters] = useState([]);
-  const [wordToShow, setWordToShow] = useState([])
+  const [wordToShow, setWordToShow] = useState([]);
+  const [errors, setErrors] = useState(0);
 
 
   function newWord() {
@@ -18,6 +20,8 @@ export default function Hangman() {
       setWord(words?.ptBR[0]?.word);  
       setSugestions(words?.ptBR[0]?.suggestions);
       setUsedLetters([]);
+      setEndWord(false);
+      setErrors(0);
     } else {
       let aux = false
       words.ptBR.forEach((item) => {
@@ -29,6 +33,8 @@ export default function Hangman() {
           setWord(item.word);  
           setSugestions(item.suggestions);
           setUsedLetters([]);
+          setEndWord(false);
+          setErrors(0);
         }
       });
       if (!aux) {
@@ -41,11 +47,13 @@ export default function Hangman() {
 
   function resetGame() {
     setEndGame(false);
+    setEndWord(false);
     setMessage('');
     setWord('')
     setSugestions([]);
     setWordUsed([]);
     setUsedLetters([]);
+    setErrors(0);
   }
 
   function ShowWord() {
@@ -59,14 +67,19 @@ export default function Hangman() {
   useEffect(()=>{
     if (word !== '') {
       const aux = [];
+      let count = 0;
       word.split('').forEach((item, index) => {
         if (usedLetters.find((x)=> x.toUpperCase() === item.toUpperCase())) {
           aux.push(item.toUpperCase());
+          count = count + 1;
         } else {
           aux.push('_');     
         }
       })
       setWordToShow(aux);
+      if (count === word.split('').length) {
+        setEndWord(true);
+      }
     } else {
       setWordToShow([]);
     }
@@ -86,8 +99,11 @@ export default function Hangman() {
               return (
                 <div>
                   <button
-                    onClick={()=>{
-                      setUsedLetters([...usedLetters, item])
+                    onClick={() => {
+                      setUsedLetters([...usedLetters, item]);
+                      if (!word.split('').find((x)=> x.toUpperCase() === item.toUpperCase())) {
+                        setErrors(errors+1);
+                      }
                     }}
                     style={{ 
                       width: '100%',
@@ -112,6 +128,10 @@ export default function Hangman() {
         >
           Reset
         </button>
+        {endWord && (<div>OPAAAA</div>)}
+        <div>
+          Errors count: {errors}
+        </div>
       </div>
     </div>
   );
