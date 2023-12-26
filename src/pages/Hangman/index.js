@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import alphabet from "../../helpers/alphabet";
 import words from "../../helpers/words";
+import Header from "../../components/Header";
+import styles from "../../styles/colors";
+import handleChangeTheme from "../../helpers/changeTheme";
 
 export default function Hangman() {
   const [word, setWord] = useState('');
@@ -12,6 +15,7 @@ export default function Hangman() {
   const [usedLetters, setUsedLetters] = useState([]);
   const [wordToShow, setWordToShow] = useState([]);
   const [errors, setErrors] = useState(0);
+  const [themeSelect, setThemeSelect] = useState('dark');
 
 
   function newWord() {
@@ -85,10 +89,26 @@ export default function Hangman() {
     }
   },[usedLetters, word]);
 
+  useEffect(()=>{
+    if (errors > 5) {
+      setEndWord(true);
+      setMessage(`Ops! You Loose...  the word is "${word}"`);
+    }
+  }, [errors]);
+
+  useEffect(()=>{
+    newWord();
+  },[])
+
   return (
-    <div>
-      <h4>Hangman</h4>
-      <h5>{word.toUpperCase()}</h5>
+    <div
+        style={{
+          backgroundColor: styles[themeSelect].bg3,
+          color: styles[themeSelect].fontColor,
+          height: '100vh',
+        }}
+      >
+      <Header themeSelect={themeSelect} />
       <br/>
       <div style={{display: 'flex', justifyContent: 'center'}}>
         <ShowWord />
@@ -108,7 +128,10 @@ export default function Hangman() {
                     style={{ 
                       width: '100%',
                       height: '45px',
+                      backgroundColor: styles[themeSelect].bg1,
+                      color: styles[themeSelect].fontColor,
                     }}
+                    disabled={errors > 5 || endWord || endGame || (usedLetters.find((x) => ( x.toUpperCase() === item.toUpperCase())))}
                   >
                     {item}
                   </button>
@@ -117,22 +140,62 @@ export default function Hangman() {
           })}
         </div>
       </div>
-      <div>
-        <button
-          onClick={()=>{newWord();}}
-        >
-          New Word
-        </button>
-        <button
-          onClick={()=>{resetGame();}}
-        >
-          Reset
-        </button>
+      <div style={{textAlign: 'center'}}>
+        <div>
+          <button
+            onClick={()=>{newWord();}}
+            style={{ 
+              width: '75vw', 
+              height: '45px', 
+              maxWidth: '500px',
+              borderRadius: '5px',
+              backgroundColor: styles[themeSelect].bg1,
+              color: styles[themeSelect].fontColor,
+            }}
+          >
+            New Word
+          </button>
+        </div>
+        <div style={{ marginTop: '8px'}}>
+          <button
+            onClick={()=>{resetGame();}}
+            style={{ 
+              width: '75vw', 
+              height: '45px', 
+              maxWidth: '500px',
+              borderRadius: '5px',
+              backgroundColor: styles[themeSelect].bg1,
+              color: styles[themeSelect].fontColor,
+            }}
+          >
+            Reset
+          </button>
+        </div>
+        <div style={{marginTop: '8px', textAlign: 'center'}}>
+          <button 
+            onClick={()=>{ handleChangeTheme(themeSelect, setThemeSelect); }}
+            style={{ 
+              width: '75vw', 
+              height: '45px', 
+              maxWidth: '500px',
+              borderRadius: '5px',
+              backgroundColor: styles[themeSelect].bg1,
+              color: styles[themeSelect].fontColor,
+            }}
+          >
+            Theme: {themeSelect.toUpperCase()}
+          </button>
+        </div>
         {endWord && (<div>OPAAAA</div>)}
         <div>
           Errors count: {errors}
         </div>
       </div>
+      <div style={{ textAlign: 'center' }}>
+          <h6>
+            Developed by Daniel Dessbesell - 2023
+          </h6>
+        </div>
     </div>
   );
 }

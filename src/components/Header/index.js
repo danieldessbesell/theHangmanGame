@@ -7,6 +7,7 @@ export default function Header({themeSelect='dark'}) {
         style={{
           textAlign: 'center',
           backgroundColor: styles[themeSelect].bg1,
+          color: styles[themeSelect].fontColor,
           width: '100vw',
           height: '64px',
           margin: 0,
