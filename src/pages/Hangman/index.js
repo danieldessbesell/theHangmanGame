@@ -8,6 +8,7 @@ import handleChangeTheme from "../../helpers/changeTheme";
 export default function Hangman() {
   const [word, setWord] = useState('');
   const [suggestions, setSugestions] = useState([]);
+  const [showSuggestions, setShowSugestions] = useState(false);
   const [wordsUsed, setWordUsed] = useState([]);
   const [endWord, setEndWord] = useState(false);
   const [endGame, setEndGame] = useState(false);
@@ -171,6 +172,21 @@ export default function Hangman() {
             Reset
           </button>
         </div>
+        <div style={{ marginTop: '8px'}}>
+          <button
+            onClick={()=>{setShowSugestions(!showSuggestions)}}
+            style={{ 
+              width: '75vw', 
+              height: '45px', 
+              maxWidth: '500px',
+              borderRadius: '5px',
+              backgroundColor: styles[themeSelect].bg1,
+              color: styles[themeSelect].fontColor,
+            }}
+          >
+            {!showSuggestions ? 'Help' : 'Close Help'}
+          </button>
+        </div>
         <div style={{marginTop: '8px', textAlign: 'center'}}>
           <button 
             onClick={()=>{ handleChangeTheme(themeSelect, setThemeSelect); }}
@@ -186,9 +202,43 @@ export default function Hangman() {
             Theme: {themeSelect.toUpperCase()}
           </button>
         </div>
-        {endWord && (<div>OPAAAA</div>)}
+        {endWord && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '45%',
+              left: '10vw',
+              width: '80vw',
+              backgroundColor: styles[themeSelect].fontColor,
+              color: styles[themeSelect].bg1,
+            }}
+          >
+            OPAAAA
+          </div>
+        )}
+        {showSuggestions && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '45%',
+              left: '10vw',
+              width: '80vw',
+              backgroundColor: styles[themeSelect].fontColor,
+              color: styles[themeSelect].bg1,
+              padding: '16px',
+              boxSizing: 'border-box',
+              textAlign: 'left',
+              borderRadius: '5px',
+            }}
+          >
+            <h3 style={{marginTop: 3, marginBottom: 3, textAlign: 'center'}}>Ajuda</h3>
+            {suggestions.map((item)=>(
+              <li>{item}</li>
+            ))}
+          </div>
+        )}
         <div>
-          Errors count: {errors}
+          Errors count: {errors} / 6
         </div>
       </div>
       <div style={{ textAlign: 'center' }}>
