@@ -27,6 +27,7 @@ export default function Hangman() {
       setUsedLetters([]);
       setEndWord(false);
       setErrors(0);
+      setMessage('');
     } else {
       let aux = false
       words.ptBR.forEach((item) => {
@@ -40,6 +41,7 @@ export default function Hangman() {
           setUsedLetters([]);
           setEndWord(false);
           setErrors(0);
+          setMessage('');
         }
       });
       if (!aux) {
@@ -206,35 +208,93 @@ export default function Hangman() {
           <div
             style={{
               position: 'absolute',
-              top: '45%',
-              left: '10vw',
-              width: '80vw',
-              backgroundColor: styles[themeSelect].fontColor,
-              color: styles[themeSelect].bg1,
+              top: '0px',
+              left: '0px',
+              width: '100%',
+              height: '100vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            OPAAAA
+            <div
+              style={{
+                width: '80vw',
+                height: 'max-content',
+                maxWidth: '500px',
+                backgroundColor: styles[themeSelect].fontColor,
+                color: styles[themeSelect].bg1,
+                padding: '16px',
+                boxSizing: 'border-box',
+                textAlign: 'left',
+                borderRadius: '5px',
+              }}
+            >
+              <h4>{mesage}</h4>
+              <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                <button 
+                  onClick={()=>{ setEndWord(!endWord) }}
+                  style={{ 
+                    width: '100px', 
+                    height: '25px', 
+                    maxWidth: '500px',
+                    borderRadius: '5px',
+                    backgroundColor: styles[themeSelect].bg1,
+                    color: styles[themeSelect].fontColor,
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         )}
         {showSuggestions && (
           <div
             style={{
               position: 'absolute',
-              top: '45%',
-              left: '10vw',
-              width: '80vw',
-              backgroundColor: styles[themeSelect].fontColor,
-              color: styles[themeSelect].bg1,
-              padding: '16px',
-              boxSizing: 'border-box',
-              textAlign: 'left',
-              borderRadius: '5px',
+              top: '0px',
+              left: '0px',
+              width: '100%',
+              height: '100vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            <h3 style={{marginTop: 3, marginBottom: 3, textAlign: 'center'}}>Ajuda</h3>
-            {suggestions.map((item)=>(
-              <li>{item}</li>
-            ))}
+            <div
+              style={{
+                width: '80vw',
+                height: 'max-content',
+                maxWidth: '500px',
+                backgroundColor: styles[themeSelect].fontColor,
+                color: styles[themeSelect].bg1,
+                padding: '16px',
+                boxSizing: 'border-box',
+                textAlign: 'left',
+                borderRadius: '5px',
+              }}
+            >
+              <h3 style={{marginTop: 3, marginBottom: 3, textAlign: 'center'}}>Ajuda</h3>
+              {suggestions.map((item)=>(
+                <li>{item}</li>
+              ))}
+              <div style={{ textAlign: 'center', marginTop: '16px' }}>
+                <button 
+                  onClick={()=>{ setShowSugestions(!showSuggestions) }}
+                  style={{ 
+                    width: '100px', 
+                    height: '25px', 
+                    maxWidth: '500px',
+                    borderRadius: '5px',
+                    backgroundColor: styles[themeSelect].bg1,
+                    color: styles[themeSelect].fontColor,
+                  }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
           </div>
         )}
         <div>
