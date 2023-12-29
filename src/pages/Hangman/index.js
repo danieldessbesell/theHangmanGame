@@ -4,6 +4,7 @@ import words from "../../helpers/words";
 import Header from "../../components/Header";
 import styles from "../../styles/colors";
 import handleChangeTheme from "../../helpers/changeTheme";
+import HangmanSVG from "../../components/HangmanSVG";
 
 export default function Hangman() {
   const [word, setWord] = useState('');
@@ -113,8 +114,11 @@ export default function Hangman() {
       >
       <Header themeSelect={themeSelect} />
       <br/>
+      <div style={{textAlign: 'center'}}>
+        <HangmanSVG errorsLevel={errors} />
       <div style={{display: 'flex', justifyContent: 'center'}}>
         <ShowWord />
+        </div>
       </div>
       <div style={{ display: 'flex', justifyContent: "center", width: '100vw', boxSizing: "border-box", padding: '16px' }}>
         <div style={{display: 'grid', gridTemplateColumns: '20% 20% 20% 20% 20%', width: '90%', maxWidth: '500px'}}>
@@ -297,9 +301,6 @@ export default function Hangman() {
             </div>
           </div>
         )}
-        <div>
-          Errors count: {errors} / 6
-        </div>
       </div>
       <div style={{ textAlign: 'center' }}>
           <h6>
