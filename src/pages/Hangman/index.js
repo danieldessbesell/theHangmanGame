@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import styles from "../../styles/colors";
 import handleChangeTheme from "../../helpers/changeTheme";
 import HangmanSVG from "../../components/HangmanSVG";
+import MakedCard from "../../components/MakedCard";
 
 export default function Hangman() {
   const [word, setWord] = useState('');
@@ -209,104 +210,33 @@ export default function Hangman() {
           </button>
         </div>
         {endWord && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '0px',
-              left: '0px',
-              width: '100%',
-              height: '100vh',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+          <MakedCard
+            themeSelect={themeSelect}
+            title=''
+            buttonClose={true}
+            handleClose={()=>{setEndWord(!endWord)}}
           >
-            <div
-              style={{
-                width: '80vw',
-                height: 'max-content',
-                maxWidth: '500px',
-                backgroundColor: styles[themeSelect].fontColor,
-                color: styles[themeSelect].bg1,
-                padding: '16px',
-                boxSizing: 'border-box',
-                textAlign: 'left',
-                borderRadius: '5px',
-              }}
-            >
-              <h4>{mesage}</h4>
-              <div style={{ textAlign: 'center', marginTop: '16px' }}>
-                <button 
-                  onClick={()=>{ setEndWord(!endWord) }}
-                  style={{ 
-                    width: '100px', 
-                    height: '25px', 
-                    maxWidth: '500px',
-                    borderRadius: '5px',
-                    backgroundColor: styles[themeSelect].bg1,
-                    color: styles[themeSelect].fontColor,
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
+            <h4>{mesage}</h4>
+          </MakedCard>
         )}
         {showSuggestions && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '0px',
-              left: '0px',
-              width: '100%',
-              height: '100vh',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+          <MakedCard
+            themeSelect={themeSelect}
+            title='Help'
+            buttonClose={true}
+            handleClose={()=>{setShowSugestions(!showSuggestions)}}
           >
-            <div
-              style={{
-                width: '80vw',
-                height: 'max-content',
-                maxWidth: '500px',
-                backgroundColor: styles[themeSelect].fontColor,
-                color: styles[themeSelect].bg1,
-                padding: '16px',
-                boxSizing: 'border-box',
-                textAlign: 'left',
-                borderRadius: '5px',
-              }}
-            >
-              <h3 style={{marginTop: 3, marginBottom: 3, textAlign: 'center'}}>Ajuda</h3>
               {suggestions.map((item)=>(
                 <li>{item}</li>
               ))}
-              <div style={{ textAlign: 'center', marginTop: '16px' }}>
-                <button 
-                  onClick={()=>{ setShowSugestions(!showSuggestions) }}
-                  style={{ 
-                    width: '100px', 
-                    height: '25px', 
-                    maxWidth: '500px',
-                    borderRadius: '5px',
-                    backgroundColor: styles[themeSelect].bg1,
-                    color: styles[themeSelect].fontColor,
-                  }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
+          </MakedCard>
         )}
       </div>
       <div style={{ textAlign: 'center' }}>
-          <h6>
-            Developed by Daniel Dessbesell - 2023
-          </h6>
-        </div>
+        <h6>
+          Developed by Daniel Dessbesell - 2023
+        </h6>
+      </div>       
     </div>
   );
 }
