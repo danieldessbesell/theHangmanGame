@@ -4,6 +4,7 @@ import styles from "../../styles/colors";
 export default function MakedCard({
   themeSelect='dark', 
   title='teste', 
+  severity=0,
   buttonClose=true, 
   handleClose=()=>{},
   children,
@@ -26,8 +27,8 @@ export default function MakedCard({
             width: '80vw',
             height: 'max-content',
             maxWidth: '500px',
-            backgroundColor: styles[themeSelect].fontColor,
-            color: styles[themeSelect].bg1,
+            backgroundColor: severity === 1 ? styles[themeSelect].success : severity === 2 ? styles[themeSelect].error : severity === 3 ? styles[themeSelect].info :styles[themeSelect].fontColor,
+            color: severity !==0 ?styles[themeSelect].fontColorOposite :  styles[themeSelect].bg1,
             padding: '16px',
             boxSizing: 'border-box',
             textAlign: 'left',

@@ -19,6 +19,7 @@ export default function Hangman() {
   const [wordToShow, setWordToShow] = useState([]);
   const [errors, setErrors] = useState(0);
   const [themeSelect, setThemeSelect] = useState('dark');
+  const [severity, setSeverity] = useState(0);
 
 
   function newWord() {
@@ -30,6 +31,7 @@ export default function Hangman() {
       setEndWord(false);
       setErrors(0);
       setMessage('');
+      setSeverity(0);
     } else {
       let aux = false
       words.ptBR.forEach((item) => {
@@ -44,28 +46,40 @@ export default function Hangman() {
           setEndWord(false);
           setErrors(0);
           setMessage('');
+          setSeverity(0);
         }
       });
       if (!aux) {
         setEndGame(true);
+        setSeverity(3);
         setMessage('Ops! No more words today, return tomorrow for more...')
       }
     }
     console.log(wordsUsed)
   }
 
-  function resetGame() {
-    setEndGame(false);
-    setEndWord(false);
-    setMessage('');
-    setWord('')
-    setSugestions([]);
-    setWordUsed([]);
-    setUsedLetters([]);
-    setErrors(0);
-  }
+  // function resetGame() {
+  //   setEndGame(false);
+  //   setEndWord(false);
+  //   setMessage('');
+  //   setWord('')
+  //   setSugestions([]);
+  //   setWordUsed([]);
+  //   setUsedLetters([]);
+  //   setErrors(0);
+  // }
 
   function ShowWord() {
+    let auxCount = 0;
+    wordToShow.forEach((item)=>{
+      if (item=== '_') {
+        auxCount=auxCount+1;
+      }
+    })
+    if (auxCount===0){
+      setMessage('You got this word. Close this window and click in the New Word fore more.')
+      setSeverity(1);
+    }
     return (
       wordToShow.map((item, index)=>(
         <h1  style={index > 0 ? {marginLeft: '5px'} : {}}>{item.toUpperCase()}</h1>
@@ -97,7 +111,8 @@ export default function Hangman() {
   useEffect(()=>{
     if (errors > 5) {
       setEndWord(true);
-      setMessage(`Ops! You Loose...  the word is "${word}"`);
+      setSeverity(2);
+      setMessage(`You Loose...  the word is "${word}"`);
     }
   }, [errors]);
 
@@ -166,21 +181,6 @@ export default function Hangman() {
         </div>
         <div style={{ marginTop: '8px'}}>
           <button
-            onClick={()=>{resetGame();}}
-            style={{ 
-              width: '75vw', 
-              height: '45px', 
-              maxWidth: '500px',
-              borderRadius: '5px',
-              backgroundColor: styles[themeSelect].bg1,
-              color: styles[themeSelect].fontColor,
-            }}
-          >
-            Reset
-          </button>
-        </div>
-        <div style={{ marginTop: '8px'}}>
-          <button
             onClick={()=>{setShowSugestions(!showSuggestions)}}
             style={{ 
               width: '75vw', 
@@ -212,11 +212,36 @@ export default function Hangman() {
         {endWord && (
           <MakedCard
             themeSelect={themeSelect}
-            title=''
+            title={severity=== 1 ? 'Congratulations!' : severity=== 2 ? 'Ops!' : ''}
+            severity={severity}
             buttonClose={true}
             handleClose={()=>{setEndWord(!endWord)}}
           >
             <h4>{mesage}</h4>
+          </MakedCard>
+        )}
+
+        {endGame && (
+          <MakedCard
+            themeSelect={themeSelect}
+            title={'Opa!'}
+            severity={severity}
+            buttonClose={false}
+          >
+            <h4>You are cleared all available words! </h4>
+            <button
+              onClick={()=>{ window.location.href='/' }}
+              style={{ 
+                width: '100%', 
+                height: '45px', 
+                //maxWidth: '500px',
+                borderRadius: '5px',
+                backgroundColor: styles[themeSelect].bg1,
+                color: styles[themeSelect].fontColor,
+              }}
+            >
+              Restart Game
+            </button>
           </MakedCard>
         )}
         {showSuggestions && (
