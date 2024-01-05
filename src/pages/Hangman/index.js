@@ -6,6 +6,7 @@ import styles from "../../styles/colors";
 import handleChangeTheme from "../../helpers/changeTheme";
 import HangmanSVG from "../../components/HangmanSVG";
 import MakedCard from "../../components/MakedCard";
+import Footer from "../../components/Footer";
 
 export default function Hangman() {
   const [word, setWord] = useState('');
@@ -57,17 +58,6 @@ export default function Hangman() {
     }
     console.log(wordsUsed)
   }
-
-  // function resetGame() {
-  //   setEndGame(false);
-  //   setEndWord(false);
-  //   setMessage('');
-  //   setWord('')
-  //   setSugestions([]);
-  //   setWordUsed([]);
-  //   setUsedLetters([]);
-  //   setErrors(0);
-  // }
 
   function ShowWord() {
     let auxCount = 0;
@@ -257,11 +247,7 @@ export default function Hangman() {
           </MakedCard>
         )}
       </div>
-      <div style={{ textAlign: 'center' }}>
-        <h6>
-          Developed by Daniel Dessbesell - 2023
-        </h6>
-      </div>       
+      <Footer />      
     </div>
   );
 }
